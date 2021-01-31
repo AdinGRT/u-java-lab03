@@ -12,8 +12,11 @@ public class TestUsuario {
     public static void main(String[] args) {
         var usuarioDao = new UsuarioDAO();
         
-        var usuarioNuevo = new Usuario("atrejo", "555bbb");
-        usuarioDao.insertar(usuarioNuevo);
+        //var usuarioNuevo = new Usuario("atrejo", "555bbb");
+        //usuarioDao.insertar(usuarioNuevo);
+        
+        var usuarioMod = new Usuario(3, "gtrejo", "123ABC");
+        usuarioDao.actualizar(usuarioMod);
         
         List<Usuario> usuarios = usuarioDao.listar();
         usuarios.forEach(usuario -> {
