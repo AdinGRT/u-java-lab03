@@ -21,7 +21,7 @@ public class TestUsuario {
             var usuarioModificar = new Usuario(1, "gtrejo", "abc123");
             usuarioDao.actualizar(usuarioModificar);
             
-            var usuarioNuevo = new Usuario("arubioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "333bbb");
+            var usuarioNuevo = new Usuario("arubio", "333bbb");
             usuarioDao.insertar(usuarioNuevo);
             
             conexion.commit();
