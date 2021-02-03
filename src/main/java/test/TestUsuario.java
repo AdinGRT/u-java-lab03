@@ -1,8 +1,8 @@
 package test;
 
-import datos.UsuarioDAO;
+import datos.*;
 import domain.Usuario;
-import java.util.*;
+import java.sql.*;
 
 /**
  *
@@ -10,21 +10,40 @@ import java.util.*;
  */
 public class TestUsuario {
     public static void main(String[] args) {
-        var usuarioDao = new UsuarioDAO();
+        Connection conexion = null;
         
-        //var usuarioNuevo = new Usuario("atrejo", "555bbb");
-        //usuarioDao.insertar(usuarioNuevo);
+        try {
+            conexion = Conexion.getConnection();
+            conexion.setAutoCommit(false);
+            
+            var usuarioDao = new UsuarioDAO(conexion);
+            
+            var usuarioModificar = new Usuario(1, "gtrejo", "abc123");
+            usuarioDao.actualizar(usuarioModificar);
+            
+            var usuarioNuevo = new Usuario("arubioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "333bbb");
+            usuarioDao.insertar(usuarioNuevo);
+            
+            conexion.commit();
+            System.out.println("Se realizo commit");
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+            
+            try {
+                conexion.rollback();
+                System.out.println("Se realizo rollback");
+            } catch (SQLException ex1) {
+                ex1.printStackTrace(System.out);
+            }
+        } finally {
+            try {
+                Conexion.close(conexion);
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            }
+        }
         
-        //var usuarioMod = new Usuario(3, "gtrejo", "123ABC");
-        //usuarioDao.actualizar(usuarioMod);
-        
-        var usuarioEliminar = new Usuario(3);
-        usuarioDao.eliminar(usuarioEliminar);
-        
-        List<Usuario> usuarios = usuarioDao.listar();
-        usuarios.forEach(usuario -> {
-            System.out.println("usuario = " + usuario);
-        });
         
     }
 }
