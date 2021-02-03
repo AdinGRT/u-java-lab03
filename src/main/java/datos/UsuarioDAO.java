@@ -3,8 +3,6 @@ package datos;
 import domain.Usuario;
 import java.sql.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -15,6 +13,15 @@ public class UsuarioDAO {
     private static final String SQL_INSERT = "INSERT INTO usuario (usuario, password) VALUES (?, ?)";
     private static final String SQL_UPDATE = "UPDATE usuario SET usuario = ?, password = ? WHERE id_usuario = ?";
     private static final String SQL_DELETE = "DELETE FROM usuario WHERE id_usuario = ?";
+    
+    private Connection connTran;
+
+    public UsuarioDAO() {
+    }
+    
+    public UsuarioDAO(Connection connTran) {
+        this.connTran = connTran;
+    }
     
     public List<Usuario> listar() {
         Connection conn = null;
