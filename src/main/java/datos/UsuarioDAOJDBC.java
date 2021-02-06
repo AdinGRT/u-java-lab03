@@ -1,6 +1,6 @@
 package datos;
 
-import domain.Usuario;
+import domain.UsuarioDTO;
 import java.sql.*;
 import java.util.*;
 
@@ -8,7 +8,7 @@ import java.util.*;
  *
  * @author adingrt
  */
-public class UsuarioDAO {
+public class UsuarioDAOJDBC implements UsuarioDAOInterface {
     private static final String SQL_SELECT = "SELECT id_usuario, usuario, password FROM usuario";
     private static final String SQL_INSERT = "INSERT INTO usuario (usuario, password) VALUES (?, ?)";
     private static final String SQL_UPDATE = "UPDATE usuario SET usuario = ?, password = ? WHERE id_usuario = ?";
@@ -16,19 +16,19 @@ public class UsuarioDAO {
     
     private Connection connTran;
 
-    public UsuarioDAO() {
+    public UsuarioDAOJDBC() {
     }
     
-    public UsuarioDAO(Connection connTran) {
+    public UsuarioDAOJDBC(Connection connTran) {
         this.connTran = connTran;
     }
     
-    public List<Usuario> listar() throws SQLException {
+    public List<UsuarioDTO> listar() throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Usuario usuario = null;
-        List<Usuario> usuarios = new ArrayList<>();
+        UsuarioDTO usuario = null;
+        List<UsuarioDTO> usuarios = new ArrayList<>();
         
         try {
             conn = this.connTran != null ? this.connTran : Conexion.getConnection();
@@ -38,7 +38,7 @@ public class UsuarioDAO {
                 int id_usuario = rs.getInt("id_usuario");
                 String username = rs.getString("usuario");
                 String password = rs.getString("password");
-                usuario = new Usuario(id_usuario, username, password);
+                usuario = new UsuarioDTO(id_usuario, username, password);
                 usuarios.add(usuario);
             }   
         } finally {
@@ -56,7 +56,7 @@ public class UsuarioDAO {
         return usuarios;
     }
     
-    public int insertar(Usuario usuario) throws SQLException {
+    public int insertar(UsuarioDTO usuario) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
@@ -80,7 +80,7 @@ public class UsuarioDAO {
         return registros;
     }
     
-    public int actualizar(Usuario usuario) throws SQLException {
+    public int actualizar(UsuarioDTO usuario) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
@@ -105,7 +105,7 @@ public class UsuarioDAO {
         return registros;
     }
     
-    public int eliminar(Usuario usuario) throws SQLException {
+    public int eliminar(UsuarioDTO usuario) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
