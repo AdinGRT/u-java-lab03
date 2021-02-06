@@ -1,8 +1,9 @@
 package test;
 
 import datos.*;
-import domain.Usuario;
+import domain.UsuarioDTO;
 import java.sql.*;
+import java.util.List;
 
 /**
  *
@@ -16,13 +17,12 @@ public class TestUsuario {
             conexion = Conexion.getConnection();
             conexion.setAutoCommit(false);
             
-            var usuarioDao = new UsuarioDAO(conexion);
+            UsuarioDAOInterface usuarioDao = new UsuarioDAOJDBC(conexion);
             
-            var usuarioModificar = new Usuario(1, "gtrejo", "abc123");
-            usuarioDao.actualizar(usuarioModificar);
-            
-            var usuarioNuevo = new Usuario("arubio", "333bbb");
-            usuarioDao.insertar(usuarioNuevo);
+            List<UsuarioDTO> usuarios = usuarioDao.listar();
+            usuarios.forEach(usuario -> {
+                System.out.println("Usuario = " + usuario);
+            });
             
             conexion.commit();
             System.out.println("Se realizo commit");
